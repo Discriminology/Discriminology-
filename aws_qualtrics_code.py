@@ -35,10 +35,19 @@ from datetime import datetime
 import os
 import boto3
 from botocore.exceptions import NoCredentialsError
+from dotenv.main import load_dotenv
 
-## This information is needed to access VOW's Qualtrics account data
-ACCESS_KEY = 'AKIAU3AZCM4EHDHUBY6Z'
-SECRET_KEY = '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'
+
+## Load stored secret keys to run the code
+load_dotenv()
+
+AWS_ACCESS_KEY = os.environ['AWS_ACCESS_KEY']
+AWS_SECRET_KEY = os.environ['AWS_SECRET_KEY']
+VOW_QUALTRICS_API_TOKEN = os.environ['VOW_QUALTRICS_API_TOKEN']
+VOW_QUALTRICS_DATA_CENTER = os.environ['VOW_QUALTRICS_DATA_CENTER']
+
+ACCESS_KEY = AWS_ACCESS_KEY
+SECRET_KEY = AWS_SECRET_KEY
 
 
 ## Define function to send qualtrics data to amazon s3 bucket:
@@ -64,9 +73,9 @@ def get_qualtrics_survey(survey_id):
     guide https://community.alteryx.com/t5/Alteryx-Designer-Discussions/Python-Tool-Downloading-Qualtrics-Survey-Data-using-Python-API/td-p/304898 """
 
     ## Setting user Parameters
-    api_token = "B8zJdWTFUxIG7zHLsL0z3ARb4hA6k6SMpCGIHGbb"
+    api_token = VOW_QUALTRICS_API_TOKEN
     file_format = "csv"
-    data_center = 'villageofwisdom.iad1' # "<Organization ID>.<Datacenter ID>"
+    data_center = VOW_QUALTRICS_DATA_CENTER
 
     ## Setting static parameters
     request_check_progress = 0
